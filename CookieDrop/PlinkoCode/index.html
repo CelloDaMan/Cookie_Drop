@@ -16,7 +16,10 @@
     </style>
   </head>
   <body>
-    <p>Cookies: 0</p>
+    <p style = "color: white" id = "score">Cookies: 10</p>
+    <p style = "color: white" id>Red = Lose</p>
+    <p style = "color: white" id>Green = Win</p>
+    <p style = "color: white" id>Gold = Win * 1.5</p>
     <canvas id="canvas" width="400" height="600"></canvas>
     <script>
       const canvas = document.getElementById("canvas");
@@ -26,7 +29,6 @@
       const balls = [];
       const ballRadius = 9;
       const gravity = 0.3;
-      const restitution = 1.3; 
 
     //peg variables
       const pegs = [];
@@ -34,6 +36,11 @@
       const pegRows = 12;
       const pegCols = 11;
       const pegSpacing = 38;
+
+      //Score Variables
+      var num = 10;
+      num.toFixed(2);
+      var score = document.getElementById("score");
 
 
       //Inner wall list to store the x and y variables
@@ -61,6 +68,8 @@
         }
         //update the balls gravity and the x and y value by the velocity along with collision factors
         update() {
+        //bounce level
+        const restitution = Math.floor(Math.random() + 2.1); 
           
           this.vy += gravity;
           this.x += this.vx;
@@ -113,18 +122,71 @@
           //score check system
           if(this.y >= 550 && this.y <= 557)
           {
-            if(this.x >= 0 && this.x <= 50 || this.x >= 180 && this.x <= 230)
+            if(this.x >= 0 && this.x <= 55 || this.x >= 175 && this.x <= 235)
           {
-              console.log("green");
+              num+= (1 /0.5);
+              score.innerText = "Cookies: " + num.toFixed(2);
+              if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
           }
-          else if (this.x >= 60 && this.x <= 170 || this.x >= 240 && this.x <= 350)
+          }
+          else if (this.x >= 56 && this.x <= 176 || this.x >= 236 && this.x <= 355)
           {
-            console.log("red");
+            if(num < 0)
+          {
+            num-=(1 / 0.8);
+            score.innerText = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
           }
           else{
-            console.log("gold");
+             num-=(1 * 0.8);
+            score.innerText = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
           }
           }
+            
+          }
+          else if (this.x >= 356 && this.x <= 400){
+            if(num <= 0)
+          {
+            num += (1 / -1.5);
+            score.innerText = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
+          }
+          else if (num == 0){
+            num++;
+            score.innerHTML = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
+          }
+          else{
+            num += (1 * 1.5);
+            score.innerText = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
+          }
+            
+          }
+        }
         }
         //draws the balls
         draw() {
@@ -222,9 +284,14 @@
 
       //spawns a ball on the x axis of where you click but wil always start at the top
       canvas.addEventListener("click", (e) => {
+      if(num >= 1)
+      {
+        num--;
+        score.innerText = "Cookies: " + num.toFixed(2);
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         balls.push(new Ball(x, ballRadius));
+      }
       });
 
       //calls the animation function
