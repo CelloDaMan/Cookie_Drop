@@ -66,7 +66,7 @@
         //update the balls gravity and the x and y value by the velocity along with collision factors
         update() {
         //bounce level
-        const restitution = Math.floor(Math.random() + 2.5); 
+        const restitution = Math.floor(Math.random() + 2.1); 
           
           this.vy += gravity;
           this.x += this.vx;
@@ -137,10 +137,10 @@
           }
             
           }
-          else{
+          else if (this.x >= 360 && this.x <= 400){
             if(num <= 0)
           {
-            num /= -2;
+            num /= -1.5;
             score.innerText = "Cookies: " + num.toFixed(2);
           }
           else if (num == 0){
@@ -148,7 +148,7 @@
             score.innerHTML = "Cookies: " + num.toFixed(2);
           }
           else{
-            num *= 2;
+            num *= 1.5;
             score.innerText = "Cookies: " + num.toFixed(2);
           }
             
