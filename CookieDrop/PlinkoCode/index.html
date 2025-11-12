@@ -17,6 +17,9 @@
   </head>
   <body>
     <p style = "color: white" id = "score">Cookies: 10</p>
+    <p style = "color: white" id>Red = Lose</p>
+    <p style = "color: white" id>Green = Win</p>
+    <p style = "color: white" id>Gold = Win * 1.5</p>
     <canvas id="canvas" width="400" height="600"></canvas>
     <script>
       const canvas = document.getElementById("canvas");
@@ -123,6 +126,11 @@
           {
               num+= (1 /0.5);
               score.innerText = "Cookies: " + num.toFixed(2);
+              if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
           }
           else if (this.x >= 56 && this.x <= 176 || this.x >= 236 && this.x <= 355)
           {
@@ -130,10 +138,20 @@
           {
             num-=(1 / 0.8);
             score.innerText = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
           }
           else{
              num-=(1 * 0.8);
             score.innerText = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
           }
             
           }
@@ -142,14 +160,29 @@
           {
             num += (1 / -1.5);
             score.innerText = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
           }
           else if (num == 0){
             num++;
             score.innerHTML = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
           }
           else{
             num += (1 * 1.5);
             score.innerText = "Cookies: " + num.toFixed(2);
+            if(num < 0)
+          {
+            num = 0;
+            score.innerText = "Cookies: " + num.toFixed(2);
+          }
           }
             
           }
@@ -251,11 +284,14 @@
 
       //spawns a ball on the x axis of where you click but wil always start at the top
       canvas.addEventListener("click", (e) => {
+      if(num >= 1)
+      {
         num--;
         score.innerText = "Cookies: " + num.toFixed(2);
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         balls.push(new Ball(x, ballRadius));
+      }
       });
 
       //calls the animation function
