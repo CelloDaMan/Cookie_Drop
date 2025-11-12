@@ -1,0 +1,234 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Drop(Plinko)</title>
+    <style>
+      canvas {
+        display: block;
+        margin: 0 auto;
+        background: #868686;
+      }
+      body{
+          background-color: rgb(0, 0, 0);
+      }
+    </style>
+  </head>
+  <body>
+    <p>Cookies: 0</p>
+    <canvas id="canvas" width="400" height="600"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      //ball variables
+      const balls = [];
+      const ballRadius = 9;
+      const gravity = 0.3;
+      const restitution = 1.3; 
+
+    //peg variables
+      const pegs = [];
+      const pegRadius = 10;
+      const pegRows = 12;
+      const pegCols = 11;
+      const pegSpacing = 38;
+
+
+      //Inner wall list to store the x and y variables
+      const walls = [];
+
+      
+
+      //creates the pegs going by each row and collom, and creates their x and y values
+      for (let row = 0; row < pegRows; row++) {
+        for (let col = 0; col < pegCols; col++) {
+          const x = col * pegSpacing + (row % 2 === 0 ? pegSpacing / 2 : 0) + 10.5;
+          const y = row * pegSpacing + 50;
+          pegs.push({ x, y });
+        }
+      }
+
+      //ball class
+      class Ball {
+        //the constructor for the initial x and y value of the ball along with the velocity x and velocity y
+        constructor(x, y) {
+          this.x = x;
+          this.y = y;
+          this.vx = 0;
+          this.vy = 0;
+        }
+        //update the balls gravity and the x and y value by the velocity along with collision factors
+        update() {
+          
+          this.vy += gravity;
+          this.x += this.vx;
+          this.y += this.vy;
+
+          //stops the ball from going past the wall and allows the ball to slightly bounce off the wall
+          if (this.x - ballRadius < 0 || this.x + ballRadius > canvas.width) {
+            this.vx *= -restitution;
+            this.x = Math.max(ballRadius, Math.min(this.x, canvas.width - ballRadius));
+          }
+
+          
+
+        //creates the collision with the pegs
+          for (const peg of pegs) {
+            const dx = this.x - peg.x;
+            const dy = this.y - peg.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < ballRadius + pegRadius) {
+              
+              const angle = Math.atan2(dy, dx);
+              this.vx += Math.cos(angle) * restitution;
+              this.vy += Math.sin(angle) * restitution;
+
+            
+              const overlap = ballRadius + pegRadius - distance;
+              this.x += Math.cos(angle) * overlap;
+              this.y += Math.sin(angle) * overlap;
+            }
+          }
+
+          //creates the collision with the inner walls
+          for (const wall of walls)
+          {
+            const wx = this.x - wall.x;
+            const wy = this.y - wall.y;
+            const dist = Math.sqrt(wx * wx + wy * wy);
+
+            if (this.x + ballRadius > wall.x && this.x + ballRadius < this.x + 10 && this.y + ballRadius > wall.y && this.y + ballRadius < wall.y + 70)
+          {
+            if (this.x - ballRadius < wall.x || this.x + ballRadius > wall.x + 10) {
+                this.dx *= -1; 
+              }
+            if (this.y - ballRadius < wall.y || this.y + ballRadius > wall.y + 10) {
+                this.dy *= -1; 
+            }
+          }
+          } 
+          //score check system
+          if(this.y >= 550 && this.y <= 557)
+          {
+            if(this.x >= 0 && this.x <= 50 || this.x >= 180 && this.x <= 230)
+          {
+              console.log("green");
+          }
+          else if (this.x >= 60 && this.x <= 170 || this.x >= 240 && this.x <= 350)
+          {
+            console.log("red");
+          }
+          else{
+            console.log("gold");
+          }
+          }
+        }
+        //draws the balls
+        draw() {
+          if(this.y <= 550)
+        {
+          //the main body of the cookie
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, ballRadius, 0, Math.PI * 2);
+          ctx.fillStyle = "#CD853F";
+          ctx.fill();
+          ctx.closePath();
+
+
+          //the chocolate chips on the cookie
+          //chip 1
+          ctx.beginPath();
+          ctx.arc(this.x - 3, this.y - 3, ballRadius - 7, 0, Math.PI * 2);
+          ctx.fillStyle = "#8B4513";
+          ctx.fill();
+          ctx.closePath();
+          //chip 2
+          ctx.beginPath();
+          ctx.arc(this.x + 3, this.y - 1, ballRadius - 7, 0, Math.PI * 2);
+          ctx.fillStyle = "#8B4513";
+          ctx.fill();
+          ctx.closePath();
+          //chip 3
+          ctx.beginPath();
+          ctx.arc(this.x - 1, this.y + 4, ballRadius - 7, 0, Math.PI * 2);
+          ctx.fillStyle = "#8B4513";
+          ctx.fill();
+          ctx.closePath();
+        }
+        }
+      }
+      //draws the inner walls
+      function drawInnerWalls()
+      {
+        const y = 530;
+        for(let i = 50; i <= 350; i+=60)
+      {
+        const x = i;
+        ctx.fillRect(x, y, 10, 70);
+        walls.push({x, y});
+      }
+      }
+
+
+      //draws the score boxes
+      function drawBoxes()
+      {
+        ctx.fillStyle = "green";
+        ctx.fillRect(0, 550, 50, 50);
+        ctx.fillStyle = "red"
+        ctx.fillRect(60, 550, 50, 50);
+        ctx.fillRect(120, 550, 50, 50);
+        ctx.fillStyle = "green";
+        ctx.fillRect(180, 550, 50, 50);
+        ctx.fillStyle = "red"
+        ctx.fillRect(240, 550, 50, 50);
+        ctx.fillRect(300, 550, 50, 50);
+        ctx.fillStyle = "gold"
+        ctx.fillRect(360, 550, 50, 50);
+      }
+
+
+      
+      
+      //draws the pegs
+      function drawPegs() {
+        for (const peg of pegs) {
+          ctx.beginPath();
+          ctx.arc(peg.x, peg.y, pegRadius, 0, Math.PI * 2);
+          ctx.fillStyle = "black";
+          ctx.fill();
+          ctx.closePath();
+        }
+      }
+
+
+      //the animator funciton for the balls
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBoxes();
+        drawPegs();
+        drawInnerWalls();
+
+        for (const ball of balls) {
+          ball.update();
+          ball.draw();
+        }
+
+        requestAnimationFrame(animate);
+      }
+
+      //spawns a ball on the x axis of where you click but wil always start at the top
+      canvas.addEventListener("click", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        balls.push(new Ball(x, ballRadius));
+      });
+
+      //calls the animation function
+      animate();
+    </script>
+  </body>
+  </html>
