@@ -3,17 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Cookie Clicker</title>
+    <link rel="stylesheet" href="CSS/styles.css">
 </head>
-<body>
-    <h2 id="cookiesOutput">Cookies: 0</h2>
-    <h4 id="cpcOutput">Cookies Per Click: 1</h4>
-    <img src="./Images/cookie.png" width="200px" id="cookiePicture">
-    <br>
-    <h2>Shop</h2>
-    <h4 id="upgrade1Cost">Upgrade Cost: 10</h4>
-    <button id="upgrade1Button">+1 Cookies Per Click</button>
+<body id="body">
 
-    <script src="cookieClicker.js">
-    </script>
+    <div id="mainContent">
+        <h2 id="cookiesOutput">Cookies: 0</h2>
+
+        <div id="Stats">
+            <h4 id="cpcOutput">Cookies Per Click: 1</h4>
+            <h4 id="cpsOutput">Cookies Per Second: 0</h4>
+        </div>
+
+        <div class="cookieWrap">
+            <img src="./Images/cookie.png" id="cookiePicture">
+        </div>
+
+        <div class="gloweffects">
+            <img src="./images/GJ_ParticleSheet-uhd2.png" alt="" id="glow1">
+            <img src="./images/GJ_ParticleSheet-uhd.png" alt="" id="glow2">
+        </div>
+
+        <br>
+
+        <h2 id="ShopText">Shop</h2>
+            <div id="shopButtons">
+                <button id="upgrade1Button" class="buttons">+0.5 Cookies Per Click: 10 Cookies</button>
+                <button id="upgrade2Button" class="buttons">+0.05 Cookies Per Second: 100 Cookies</button>
+            </div>
+
+        <script src="cookieClicker.js">
+        </script>
+
+    </div>
 </body>
 </html>
