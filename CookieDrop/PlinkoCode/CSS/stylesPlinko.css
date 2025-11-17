@@ -1,0 +1,33 @@
+
+#canvas 
+{
+    display: block;
+    margin: 0 auto;
+    background: #868686;
+    border: solid;
+    position: absolute;
+    top: 26px;
+    left: 1020px;
+    width: 570px;
+    height: 900px;
+}
+
+#directions
+{
+    position: absolute;
+    top: 26px;
+    left: 780px;
+    border: 20px double rgb(110, 70, 30);
+    background-color: rgb(245, 220, 160);
+    width: 180px;
+    text-shadow: 1px 1px 2px rgb(100, 60, 20);
+    font-style: oblique;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: larger;
+    z-index: +1;
+    transition: ease-in-out;
+}
+
+
+
+

@@ -1,16 +1,13 @@
 
 /* Static content*/
-#body
-{
-    background-color: rgb(168, 104, 8);
-    border: ridge 10px rgb(120, 72, 16);
-    width: 1000px;
-}
 
-#mainContent
+
+#CookieClickerContent
 {
     align-content: center;
     place-items: center;
+    width: 1000px;
+    ;
 }
 
 #cookiesOutput
@@ -27,7 +24,7 @@
     background-color: rgb(210, 180, 120);
     color: rgb(60, 35, 15);
     font-style: italic;
-    position:fixed;
+    position:absolute;
     top: 260px;
     left: 30px;
     padding: 10px;

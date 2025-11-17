@@ -18,8 +18,8 @@ function main()
 {
     cookieCount = cookieCount + cookiesPerSecond / 10 
 
-    upgradeCPC = 0.5 + cookiesPerSecond / 2 + (totalCookieAmount/400000);
-    upgradeCPS = 0.05 + cookiesPerClick / 8 + (totalCookieAmount/400000);
+    upgradeCPC = 0.5 + cookiesPerSecond / 1.75 + (totalCookieAmount/300000);
+    upgradeCPS = 0.1 + cookiesPerClick / 7 + (totalCookieAmount/300000);
 
     document.getElementById('upgrade1Button').innerText = "+" + upgradeCPC.toFixed(2) + " Cookies Per Click: " + (Math.round(upgrade1Cost * 100) / 100) + " Cookies"
     document.getElementById('upgrade2Button').innerText = "+" + upgradeCPS.toFixed(2) + " Cookies Per Second: " + (Math.round(upgrade2Cost * 100) / 100) + " Cookies"
@@ -40,9 +40,9 @@ function main()
     document.getElementById('upgrade1Button').addEventListener('click', function() {
         if (cookieCount >= upgrade1Cost) {
             cookieCount -= upgrade1Cost;
-            cookiesPerClick = cookiesPerClick + 0.5 + cookiesPerSecond/2;
+            cookiesPerClick = cookiesPerClick + 0.5 + cookiesPerSecond/1.75;
             
-            upgrade1Cost = upgrade1Cost * 1.15;
+            upgrade1Cost = upgrade1Cost * 1.05;
             
             document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
             document.getElementById('cpcOutput').innerText = "Cookies Per Click: " + Math.round(cookiesPerClick * 100) / 100;
@@ -55,9 +55,9 @@ function main()
     document.getElementById('upgrade2Button').addEventListener('click', function() {
         if (cookieCount >= upgrade2Cost) {
             cookieCount -= upgrade2Cost;
-            cookiesPerSecond = cookiesPerSecond + 0.05 + cookiesPerClick/8;
+            cookiesPerSecond = cookiesPerSecond + 0.05 + cookiesPerClick/7;
             
-            upgrade2Cost = upgrade2Cost * 4.5;
+            upgrade2Cost = upgrade2Cost * 3.5;
             
             document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
             document.getElementById('cpsOutput').innerText = "Cookies Per Second: " + Math.round(cookiesPerSecond * 100) / 100;
@@ -67,3 +67,5 @@ function main()
            
         }
     });
+
+    

@@ -1,31 +1,73 @@
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Drop(Plinko)</title>
-    <style>
-      canvas {
-        display: block;
-        margin: 0 auto;
-        background: #868686;
-      }
-      body{
-          background-color: rgb(0, 0, 0);
-      }
+    <title>Cookie Clicker</title>
+    <!-- StyleSheets for each half of the game -->
+    <link rel="stylesheet" href="./CookieClickerCode/CSS/stylesCookieClicker.css">
+    <link rel="stylesheet" href="./PlinkoCode/CSS/stylesPlinko.css">
+
+    <style id="body">
+        body
+        {
+            background-color: rgb(168, 104, 8);
+            width: 1600px;
+            height: 930px;
+            border: ridge 10px rgb(120, 72, 16)
+        }
     </style>
-  </head>
-  <body>
-    <p style = "color: white" id = "score">Cookies: 10</p>
-    <p style = "color: white" id>Red = Lose</p>
-    <p style = "color: white" id>Green = Win</p>
-    <p style = "color: white" id>Gold = Win * 1.5</p>
+    
+</head>
+<body id="body">
+<!-- Cookie Clicker content -->
+    <div id="CookieClickerContent">
+        <h2 id="cookiesOutput">Cookies: 0</h2>
+
+        <div id="Stats">
+            <h4 id="cpcOutput">Cookies Per Click: 1</h4>
+            <h4 id="cpsOutput">Cookies Per Second: 0</h4>
+        </div>
+
+        <div class="cookieWrap">
+            <img src="./CookieClickerCode/images/cookie.png" id="cookiePicture">
+        </div>
+
+        <div class="gloweffects">
+            <img src="./CookieClickerCode/images/GJ_ParticleSheet-uhd2.png" alt="" id="glow1">
+            <img src="./CookieClickerCode/images/GJ_ParticleSheet-uhd.png" alt="" id="glow2">
+        </div>
+
+        <br>
+
+        <h2 id="ShopText">Shop</h2>
+            <div id="shopButtons">
+                <button id="upgrade1Button" class="buttons">+0.5 Cookies Per Click: 10 Cookies</button>
+                <button id="upgrade2Button" class="buttons">+0.05 Cookies Per Second: 100 Cookies</button>
+            </div>
+
+        <script src="./CookieClickerCode/cookieClicker.js">
+        </script>
+    </div>
+
+    <!-- Plinko Content -->
+     <div id="PlinkoContent">
+
+        
+            <div id="directions">
+                <p style = "color: white" id = "">Cookies: 10</p>
+                <p style = "color: white" id>Red = Lose</p>
+                <p style = "color: white" id>Green = Win</p>
+                <p style = "color: white" id>Gold = Win * 1.5</p>
+            </div>
+    
+
     <canvas id="canvas" width="400" height="600"></canvas>
     <script>
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
 
-      //ball variables
+    //ball variables
       const balls = [];
       const ballRadius = 9;
       const gravity = 0.3;
@@ -297,5 +339,7 @@
       //calls the animation function
       animate();
     </script>
-  </body>
-  </html>
+
+     </div>
+</body>
+</html>
