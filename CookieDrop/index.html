@@ -18,6 +18,7 @@
         }
     </style>
     
+    
 </head>
 <body id="body">
 <!-- Cookie Clicker content -->
@@ -46,8 +47,8 @@
                 <button id="upgrade2Button" class="buttons">+0.05 Cookies Per Second: 100 Cookies</button>
             </div>
 
-        <script src="./CookieClickerCode/cookieClicker.js">
-        </script>
+        <!-- <script src="./CookieClickerCode/cookieClicker.js"> -->
+        <!-- </script> -->
     </div>
 
     <!-- Plinko Content -->
@@ -55,7 +56,7 @@
 
         
             <div id="directions">
-                <p style = "color: white" id = "">Cookies: 10</p>
+                <!-- <p style = "color: white" id = "score">Cookies: 0</p> -->
                 <p style = "color: white" id>Red = Lose</p>
                 <p style = "color: white" id>Green = Win</p>
                 <p style = "color: white" id>Gold = Win * 1.5</p>
@@ -80,9 +81,9 @@
       const pegSpacing = 38;
 
       //Score Variables
-      var num = 10;
-      num.toFixed(2);
-      var score = document.getElementById("score");
+      var cookieCount = 0;
+      cookieCount.toFixed(2);
+      var score = document.getElementById("cookiesOutput");
 
 
       //Inner wall list to store the x and y variables
@@ -166,64 +167,64 @@
           {
             if(this.x >= 0 && this.x <= 55 || this.x >= 175 && this.x <= 235)
           {
-              num+= (1 /0.5);
-              score.innerText = "Cookies: " + num.toFixed(2);
-              if(num < 0)
+              cookieCount+= (1 /0.5);
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+              if(cookieCount < 0)
           {
-            num = 0;
-            score.innerText = "Cookies: " + num.toFixed(2);
+            cookieCount = 0;
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
           }
           }
           else if (this.x >= 56 && this.x <= 176 || this.x >= 236 && this.x <= 355)
           {
-            if(num < 0)
+            if(cookieCount < 0)
           {
-            num-=(1 / 0.8);
-            score.innerText = "Cookies: " + num.toFixed(2);
-            if(num < 0)
+            cookieCount-=(1 / 0.8);
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            if(cookieCount < 0)
           {
-            num = 0;
-            score.innerText = "Cookies: " + num.toFixed(2);
+            cookieCount = 0;
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
           }
           }
           else{
-             num-=(1 * 0.8);
-            score.innerText = "Cookies: " + num.toFixed(2);
-            if(num < 0)
+             cookieCount-=(1 * 0.8);
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            if(cookieCount < 0)
           {
-            num = 0;
-            score.innerText = "Cookies: " + num.toFixed(2);
+            cookieCount = 0;
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
           }
           }
             
           }
           else if (this.x >= 356 && this.x <= 400){
-            if(num <= 0)
+            if(cookieCount <= 0)
           {
-            num += (1 / -1.5);
-            score.innerText = "Cookies: " + num.toFixed(2);
-            if(num < 0)
+            cookieCount += (1 / -1.5);
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            if(cookieCount < 0)
           {
-            num = 0;
-            score.innerText = "Cookies: " + num.toFixed(2);
+            cookieCount = 0;
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
           }
           }
-          else if (num == 0){
-            num++;
-            score.innerHTML = "Cookies: " + num.toFixed(2);
-            if(num < 0)
+          else if (cookieCount == 0){
+            cookieCount++;
+            score.innerHTML = "Cookies: " + cookieCount.toFixed(2);
+            if(cookieCount < 0)
           {
-            num = 0;
-            score.innerText = "Cookies: " + num.toFixed(2);
+            cookieCount = 0;
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
           }
           }
           else{
-            num += (1 * 1.5);
-            score.innerText = "Cookies: " + num.toFixed(2);
-            if(num < 0)
+            cookieCount += (1 * 1.5);
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            if(cookieCount < 0)
           {
-            num = 0;
-            score.innerText = "Cookies: " + num.toFixed(2);
+            cookieCount = 0;
+            score.innerText = "Cookies: " + cookieCount.toFixed(2);
           }
           }
             
@@ -326,18 +327,93 @@
 
       //spawns a ball on the x axis of where you click but wil always start at the top
       canvas.addEventListener("click", (e) => {
-      if(num >= 1)
+      if(cookieCount >= 1)
       {
-        num--;
-        score.innerText = "Cookies: " + num.toFixed(2);
+        cookieCount--;
+        score.innerText = "Cookies: " + cookieCount.toFixed(2);
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         balls.push(new Ball(x, ballRadius));
       }
       });
-
       //calls the animation function
       animate();
+
+
+
+
+      //cookie clicker code
+      // self-explanitory variables
+
+var cookiesPerClick = 1;
+var cookiesPerSecond = 0 * 10 ;
+var upgrade1Cost = 10;
+var upgrade2Cost = 100;
+var upgradeCPC = 0.5 + cookiesPerSecond / 2;
+var upgradeCPS = 0.05 + cookiesPerClick / 8 * 10;
+
+//total cookie amount used to scale upgrades when the numbers get very high
+var totalCookieAmount = 0;
+
+// main function which updates cookies with CPS and updates the upgradeCPC and upgradeCPS values
+var ups = 1000/15
+var timer = setInterval(main, ups)
+
+function main()
+{
+    cookieCount = cookieCount + cookiesPerSecond / 10 
+
+    upgradeCPC = 0.5 + cookiesPerSecond / 1.75 + (totalCookieAmount/300000);
+    upgradeCPS = 0.1 + cookiesPerClick / 7 + (totalCookieAmount/300000);
+
+    document.getElementById('upgrade1Button').innerText = "+" + upgradeCPC.toFixed(2) + " Cookies Per Click: " + (Math.round(upgrade1Cost * 100) / 100) + " Cookies"
+    document.getElementById('upgrade2Button').innerText = "+" + upgradeCPS.toFixed(2) + " Cookies Per Second: " + (Math.round(upgrade2Cost * 100) / 100) + " Cookies"
+    document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
+
+    totalCookieAmount = totalCookieAmount + cookiesPerSecond
+    
+}
+
+// Event listener for clicking the cookie
+    document.getElementById('cookiePicture').addEventListener('click', function() {
+        cookieCount = cookieCount + cookiesPerClick;
+        //document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
+        totalCookieAmount = totalCookieAmount + cookiesPerClick
+    });
+
+// Event listener for upgrading the cookies per click
+    document.getElementById('upgrade1Button').addEventListener('click', function() {
+        if (cookieCount >= upgrade1Cost) {
+            cookieCount -= upgrade1Cost;
+            cookiesPerClick = cookiesPerClick + 0.5 + cookiesPerSecond/1.75;
+            
+            upgrade1Cost = upgrade1Cost * 1.05;
+            
+            document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
+            document.getElementById('cpcOutput').innerText = "Cookies Per Click: " + Math.round(cookiesPerClick * 100) / 100;
+
+            //old method for cost
+            //document.getElementById('upgrade1Cost').innerText = "Upgrade Cost: " + Math.floor(upgrade1Cost);
+        }
+    });
+
+    document.getElementById('upgrade2Button').addEventListener('click', function() {
+        if (cookieCount >= upgrade2Cost) {
+            cookieCount -= upgrade2Cost;
+            cookiesPerSecond = cookiesPerSecond + 0.05 + cookiesPerClick/7;
+            
+            upgrade2Cost = upgrade2Cost * 3.5;
+            
+            document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
+            document.getElementById('cpsOutput').innerText = "Cookies Per Second: " + Math.round(cookiesPerSecond * 100) / 100;
+            
+            //old method for cost
+            //document.getElementById('upgrade1Cost').innerText = "Upgrade Cost: " + Math.floor(upgrade1Cost);
+           
+        }
+    });
+
+    
     </script>
 
      </div>
