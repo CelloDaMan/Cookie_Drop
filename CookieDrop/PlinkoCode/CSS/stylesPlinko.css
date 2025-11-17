@@ -3,8 +3,8 @@
 {
     display: block;
     margin: 0 auto;
-    background: #868686;
-    border: solid;
+    background: rgb(245, 220, 160);
+    border: 10px groove rgb(110, 70, 30);
     position: absolute;
     top: 26px;
     left: 1020px;
@@ -15,7 +15,7 @@
 #directions
 {
     position: absolute;
-    top: 26px;
+    top: 400px;
     left: 780px;
     border: 20px double rgb(110, 70, 30);
     background-color: rgb(245, 220, 160);
