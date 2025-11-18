@@ -61,7 +61,8 @@
                 <p>Green = Win</p>
                 <pd>Gold = Win * 1.5</p>
             </div>
-            <input type="number" id="ballDropAmount">
+            <label for="ballDropAmount">Quantity (between 1 and 5):</label>
+            <input type="number" id="ballDropAmount" name="ballDropAmount">
             <p id="EnterText">↓↓↓ Enter amount here ↓↓↓</p>
     
 
@@ -86,6 +87,9 @@
       var cookieCount = 0;
       cookieCount.toFixed(2);
       var score = document.getElementById("cookiesOutput");
+      var typedAmount = 1;
+      var type = 1;
+
 
 
       //Inner wall list to store the x and y variables
@@ -115,6 +119,11 @@
         update() {
         //bounce level
         const restitution = Math.floor(Math.random() + 2.1); 
+
+
+        //Updates the amount the player has typed in
+        
+
           
           this.vy += gravity;
           this.x += this.vx;
@@ -169,7 +178,7 @@
           {
             if(this.x >= 0 && this.x <= 55 || this.x >= 175 && this.x <= 235)
           {
-              cookieCount+= (1 /0.5);
+              cookieCount+= (type /0.5);
               score.innerText = "Cookies: " + cookieCount.toFixed(2);
               if(cookieCount < 0)
           {
@@ -181,7 +190,7 @@
           {
             if(cookieCount < 0)
           {
-            cookieCount-=(1 / 0.8);
+            cookieCount-=(type / 0.8);
             score.innerText = "Cookies: " + cookieCount.toFixed(2);
             if(cookieCount < 0)
           {
@@ -190,7 +199,7 @@
           }
           }
           else{
-             cookieCount-=(1 * 0.8);
+             cookieCount-=(type * 0.8);
             score.innerText = "Cookies: " + cookieCount.toFixed(2);
             if(cookieCount < 0)
           {
@@ -203,7 +212,7 @@
           else if (this.x >= 356 && this.x <= 400){
             if(cookieCount <= 0)
           {
-            cookieCount += (1 / -1.5);
+            cookieCount += (type / -1.5);
             score.innerText = "Cookies: " + cookieCount.toFixed(2);
             if(cookieCount < 0)
           {
@@ -221,7 +230,7 @@
           }
           }
           else{
-            cookieCount += (1 * 1.5);
+            cookieCount += (type * 1.5);
             score.innerText = "Cookies: " + cookieCount.toFixed(2);
             if(cookieCount < 0)
           {
@@ -331,11 +340,13 @@
       canvas.addEventListener("click", (e) => {
       if(cookieCount >= 1)
       {
-        cookieCount--;
-        score.innerText = "Cookies: " + cookieCount.toFixed(2);
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         balls.push(new Ball(x, ballRadius));
+        typedAmount = document.getElementById("ballDropAmount");
+        type = typedAmount.value;
+        cookieCount -= Number(type);
+        score.innerText = "Cookies: " + cookieCount.toFixed(2);
       }
       });
       //calls the animation function
