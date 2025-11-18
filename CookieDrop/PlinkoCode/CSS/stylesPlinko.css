@@ -16,16 +16,43 @@
 {
     position: absolute;
     top: 400px;
-    left: 780px;
+    left: 770px;
     border: 20px double rgb(110, 70, 30);
     background-color: rgb(245, 220, 160);
     width: 180px;
-    text-shadow: 1px 1px 2px rgb(100, 60, 20);
     font-style: oblique;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: larger;
     z-index: +1;
     transition: ease-in-out;
+    color: rgb(70, 40, 10);
+    padding-left: 10px;
+}
+
+#ballDropAmount
+{
+    width: 207.2px;
+    height: 60px;
+    font-size: x-large;
+    font-style: oblique;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 1px 1px 2px rgb(100, 60, 20);
+    border: 10px ridge rgb(200, 140, 60);
+    background-color: rgb(255, 230, 180);
+    position: absolute;
+    top: 310px;
+    left: 770px;
+}
+
+#EnterText
+{
+    text-shadow: 1px 1px 2px rgb(100, 60, 20);
+    color:rgb(255, 230, 180) ;
+    font-size: 20px;
+    position: absolute;
+    top: 250px;
+    left: 776px;
+    text-shadow: 2px 2px 2px rgb(65, 38, 11);
 }
 
 
