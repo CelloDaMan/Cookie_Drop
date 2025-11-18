@@ -12,7 +12,7 @@
         body
         {
             background-color: rgb(168, 104, 8);
-            width: 1600px;
+            width: 1430px;
             height: 930px;
             border: ridge 10px rgb(120, 72, 16)
         }
@@ -23,10 +23,12 @@
 <body id="body">
 <!-- Cookie Clicker content -->
     <div id="CookieClickerContent">
+        <h2 id="cookiesTotal">Total Cookies: 0</h2>
         <h2 id="cookiesOutput">Cookies: 0</h2>
 
         <div id="Stats">
             <h4 id="cpcOutput">Cookies Per Click: 1</h4>
+            <br>
             <h4 id="cpsOutput">Cookies Per Second: 0</h4>
         </div>
 
@@ -61,7 +63,6 @@
                 <p>Green = Win</p>
                 <pd>Gold = Win * 1.5</p>
             </div>
-            <label for="ballDropAmount">Quantity (between 1 and 5):</label>
             <input type="number" id="ballDropAmount" name="ballDropAmount">
             <p id="EnterText">↓↓↓ Enter amount here ↓↓↓</p>
     
@@ -365,6 +366,8 @@ var upgrade2Cost = 100;
 var upgradeCPC = 0.5 + cookiesPerSecond / 2;
 var upgradeCPS = 0.05 + cookiesPerClick / 8 * 10;
 
+
+
 //total cookie amount used to scale upgrades when the numbers get very high
 var totalCookieAmount = 0;
 
@@ -384,6 +387,8 @@ function main()
     document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
 
     totalCookieAmount = totalCookieAmount + cookiesPerSecond
+
+    document.getElementById('cookiesTotal').innerText = "Total Cookies: " + Math.round(totalCookieAmount * 100) / 100; 
     
 }
 
