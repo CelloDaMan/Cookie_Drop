@@ -1,439 +1,449 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Clicker</title>
-    <!-- StyleSheets for each half of the game -->
-    <link rel="stylesheet" href="./CookieClickerCode/CSS/stylesCookieClicker.css">
-    <link rel="stylesheet" href="./PlinkoCode/CSS/stylesPlinko.css">
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Cookie Clicker</title>
+      <!-- StyleSheets for each half of the game -->
+      <link rel="stylesheet" href="./CookieClickerCode/CSS/stylesCookieClicker.css">
+      <link rel="stylesheet" href="./PlinkoCode/CSS/stylesPlinko.css">
 
-    <style id="body">
-        body
-        {
-            background-color: rgb(168, 104, 8);
-            width: 1430px;
-            height: 930px;
-            border: ridge 10px rgb(120, 72, 16)
-        }
-    </style>
-    
-    
-</head>
-<body id="body">
-<!-- Cookie Clicker content -->
-    <div id="CookieClickerContent">
-        <h2 id="cookiesTotal">Total Cookies: 0</h2>
-        <h2 id="cookiesOutput">Cookies: 0</h2>
+      <style id="body">
+          body
+          {
+              background-color: rgb(168, 104, 8);
+              width: 1430px;
+              height: 930px;
+              border: ridge 10px rgb(120, 72, 16)
+          }
+      </style>
+      
+      
+  </head>
+  <body id="body">
+  <!-- Cookie Clicker content -->
+      <div id="CookieClickerContent">
+          <h2 id="cookiesOutput">Cookies: 0</h2>
+          <h2 id="cookiesTotal">Cookies: 0</h2>
 
-        <div id="Stats">
-            <h4 id="cpcOutput">Cookies Per Click: 1</h4>
-            <br>
-            <h4 id="cpsOutput">Cookies Per Second: 0</h4>
-        </div>
+          <div id="Stats">
+              <h4 id="cpcOutput">Cookies Per Click: 1</h4>
+              <br>
+              <h4 id="cpsOutput">Cookies Per Second: 0</h4>
+          </div>
 
-        <div class="cookieWrap">
-            <img src="./CookieClickerCode/images/cookie.png" id="cookiePicture">
-        </div>
+          <div class="cookieWrap">
+              <img src="./CookieClickerCode/images/cookie.png" id="cookiePicture">
+          </div>
 
-        <div class="gloweffects">
-            <img src="./CookieClickerCode/images/GJ_ParticleSheet-uhd2.png" alt="" id="glow1">
-            <img src="./CookieClickerCode/images/GJ_ParticleSheet-uhd.png" alt="" id="glow2">
-        </div>
+          <div class="gloweffects">
+              <img src="./CookieClickerCode/images/GJ_ParticleSheet-uhd2.png" alt="" id="glow1">
+              <img src="./CookieClickerCode/images/GJ_ParticleSheet-uhd.png" alt="" id="glow2">
+          </div>
 
-        <br>
+          <br>
 
-        <h2 id="ShopText">Shop</h2>
-            <div id="shopButtons">
-                <button id="upgrade1Button" class="buttons">+0.5 Cookies Per Click: 10 Cookies</button>
-                <button id="upgrade2Button" class="buttons">+0.05 Cookies Per Second: 100 Cookies</button>
-            </div>
+          <h2 id="ShopText">Shop</h2>
+              <div id="shopButtons">
+                  <button id="upgrade1Button" class="buttons">+0.5 Cookies Per Click: 10 Cookies</button>
+                  <button id="upgrade2Button" class="buttons">+0.05 Cookies Per Second: 100 Cookies</button>
+              </div>
 
-        <!-- <script src="./CookieClickerCode/cookieClicker.js"> -->
-        <!-- </script> -->
-    </div>
+          <!-- <script src="./CookieClickerCode/cookieClicker.js"> -->
+          <!-- </script> -->
+      </div>
 
-    <!-- Plinko Content -->
-     <div id="PlinkoContent">
+      <!-- Plinko Content -->
+      <div id="PlinkoContent">
 
-        
-            <div id="directions">
-                <!-- <p style = "color: white" id = "score">Cookies: 0</p> -->
-                <p>Red = Lose</p>
-                <p>Green = Win</p>
-                <pd>Gold = Win * 1.5</p>
-            </div>
-            <input type="number" id="ballDropAmount" name="ballDropAmount">
-            <p id="EnterText">↓↓↓ Enter amount here ↓↓↓</p>
-    
-
-    <canvas id="canvas" width="400" height="600"></canvas>
-    <script>
-      const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-
-    //ball variables
-      const balls = [];
-      const ballRadius = 9;
-      const gravity = 0.3;
-
-    //peg variables
-      const pegs = [];
-      const pegRadius = 10;
-      const pegRows = 12;
-      const pegCols = 11;
-      const pegSpacing = 38;
-
-      //Score Variables
-      var cookieCount = 0;
-      cookieCount.toFixed(2);
-      var score = document.getElementById("cookiesOutput");
-      var typedAmount = 1;
-      var type = 1;
-
-
-
-      //Inner wall list to store the x and y variables
-      const walls = [];
-
+          
+              <div id="directions">
+                  <!-- <p style = "color: white" id = "score">Cookies: 0</p> -->
+                  <p>Red = Lose</p>
+                  <p>Green = Win</p>
+                  <pd>Gold = Win * 1.5</p>
+              </div>
+              <input type="number" id="ballDropAmount" name="ballDropAmount">
+              <p id="EnterText">↓↓↓ Enter amount here ↓↓↓</p>
       
 
-      //creates the pegs going by each row and collom, and creates their x and y values
-      for (let row = 0; row < pegRows; row++) {
-        for (let col = 0; col < pegCols; col++) {
-          const x = col * pegSpacing + (row % 2 === 0 ? pegSpacing / 2 : 0) + 10.5;
-          const y = row * pegSpacing + 50;
-          pegs.push({ x, y });
-        }
-      }
+      <canvas id="canvas" width="400" height="600"></canvas>
+      <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
 
-      //ball class
-      class Ball {
-        //the constructor for the initial x and y value of the ball along with the velocity x and velocity y
-        constructor(x, y) {
-          this.x = x;
-          this.y = y;
-          this.vx = 0;
-          this.vy = 0;
-        }
-        //update the balls gravity and the x and y value by the velocity along with collision factors
-        update() {
-        //bounce level
-        const restitution = Math.floor(Math.random() + 2.1); 
+      //ball variables
+        const balls = [];
+        const ballRadius = 9;
+        const gravity = 0.3;
+
+      //peg variables
+        const pegs = [];
+        const pegRadius = 10;
+        const pegRows = 12;
+        const pegCols = 11;
+        const pegSpacing = 38;
+
+        //Score Variables
+        var cookieCount = 0;
+        cookieCount.toFixed(2);
+        var score = document.getElementById("cookiesOutput");
+        var typedAmount = 1;
+        var type = 1;
 
 
-        //Updates the amount the player has typed in
+
+        //Inner wall list to store the x and y variables
+        const walls = [];
+
         
 
-          
-          this.vy += gravity;
-          this.x += this.vx;
-          this.y += this.vy;
-
-          //stops the ball from going past the wall and allows the ball to slightly bounce off the wall
-          if (this.x - ballRadius < 0 || this.x + ballRadius > canvas.width) {
-            this.vx *= -restitution;
-            this.x = Math.max(ballRadius, Math.min(this.x, canvas.width - ballRadius));
+        //creates the pegs going by each row and collom, and creates their x and y values
+        for (let row = 0; row < pegRows; row++) {
+          for (let col = 0; col < pegCols; col++) {
+            const x = col * pegSpacing + (row % 2 === 0 ? pegSpacing / 2 : 0) + 10.5;
+            const y = row * pegSpacing + 50;
+            pegs.push({ x, y });
           }
+        }
 
-          
+        //ball class
+        class Ball {
+          //the constructor for the initial x and y value of the ball along with the velocity x and velocity y
+          constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+          }
+          //update the balls gravity and the x and y value by the velocity along with collision factors
+          update() {
+          //bounce level
+          const restitution = Math.floor(Math.random() + 2.1); 
 
-        //creates the collision with the pegs
-          for (const peg of pegs) {
-            const dx = this.x - peg.x;
-            const dy = this.y - peg.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < ballRadius + pegRadius) {
-              
-              const angle = Math.atan2(dy, dx);
-              this.vx += Math.cos(angle) * restitution;
-              this.vy += Math.sin(angle) * restitution;
+          //updates the ball if it needs to be destroyed
+            if (this.y > 550) {
+              this.toDelete = true;
+            }
 
             
-              const overlap = ballRadius + pegRadius - distance;
-              this.x += Math.cos(angle) * overlap;
-              this.y += Math.sin(angle) * overlap;
+
+            
+            this.vy += gravity;
+            this.x += this.vx;
+            this.y += this.vy;
+
+            //stops the ball from going past the wall and allows the ball to slightly bounce off the wall
+            if (this.x - ballRadius < 0 || this.x + ballRadius > canvas.width) {
+              this.vx *= -restitution;
+              this.x = Math.max(ballRadius, Math.min(this.x, canvas.width - ballRadius));
             }
-          }
 
-          //creates the collision with the inner walls
-          for (const wall of walls)
-          {
-            const wx = this.x - wall.x;
-            const wy = this.y - wall.y;
-            const dist = Math.sqrt(wx * wx + wy * wy);
+            
 
-            if (this.x + ballRadius > wall.x && this.x + ballRadius < this.x + 10 && this.y + ballRadius > wall.y && this.y + ballRadius < wall.y + 70)
-          {
-            if (this.x - ballRadius < wall.x || this.x + ballRadius > wall.x + 10) {
-                this.dx *= -1; 
+          //creates the collision with the pegs
+            for (const peg of pegs) {
+              const dx = this.x - peg.x;
+              const dy = this.y - peg.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+
+              if (distance < ballRadius + pegRadius) {
+                
+                const angle = Math.atan2(dy, dx);
+                this.vx += Math.cos(angle) * restitution;
+                this.vy += Math.sin(angle) * restitution;
+
+              
+                const overlap = ballRadius + pegRadius - distance;
+                this.x += Math.cos(angle) * overlap;
+                this.y += Math.sin(angle) * overlap;
               }
-            if (this.y - ballRadius < wall.y || this.y + ballRadius > wall.y + 10) {
-                this.dy *= -1; 
             }
-          }
-          } 
-          //score check system
-          if(this.y >= 550 && this.y <= 557)
-          {
-            if(this.x >= 0 && this.x <= 55 || this.x >= 175 && this.x <= 235)
-          {
-              cookieCount+= (type /0.5);
+
+            //creates the collision with the inner walls
+            for (const wall of walls)
+            {
+              const wx = this.x - wall.x;
+              const wy = this.y - wall.y;
+              const dist = Math.sqrt(wx * wx + wy * wy);
+
+              if (this.x + ballRadius > wall.x && this.x + ballRadius < this.x + 10 && this.y + ballRadius > wall.y && this.y + ballRadius < wall.y + 70)
+            {
+              if (this.x - ballRadius < wall.x || this.x + ballRadius > wall.x + 10) {
+                  this.dx *= -1; 
+                }
+              if (this.y - ballRadius < wall.y || this.y + ballRadius > wall.y + 10) {
+                  this.dy *= -1; 
+              }
+            }
+            } 
+            //score check system
+            if(this.y >= 550 && this.y <= 557)
+            {
+              if(this.x >= 0 && this.x <= 55 || this.x >= 175 && this.x <= 235)
+            {
+                cookieCount+= (type /0.5);
+                score.innerText = "Cookies: " + cookieCount.toFixed(2);
+                if(cookieCount < 0)
+            {
+              cookieCount = 0;
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            }
+            }
+            else if (this.x >= 56 && this.x <= 176 || this.x >= 236 && this.x <= 355)
+            {
+              if(cookieCount < 0)
+            {
+              cookieCount-=(type / 0.8);
               score.innerText = "Cookies: " + cookieCount.toFixed(2);
               if(cookieCount < 0)
-          {
-            cookieCount = 0;
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            {
+              cookieCount = 0;
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            }
+            }
+            else{
+              cookieCount-=(type * 0.8);
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+              if(cookieCount < 0)
+            {
+              cookieCount = 0;
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            }
+            }
+              
+            }
+            else if (this.x >= 356 && this.x <= 400){
+              if(cookieCount <= 0)
+            {
+              cookieCount += (type / -1.5);
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+              if(cookieCount < 0)
+            {
+              cookieCount = 0;
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            }
+            }
+            else if (cookieCount == 0){
+              cookieCount++;
+              score.innerHTML = "Cookies: " + cookieCount.toFixed(2);
+              if(cookieCount < 0)
+            {
+              cookieCount = 0;
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            }
+            }
+            else{
+              cookieCount += (type * 1.5);
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+              if(cookieCount < 0)
+            {
+              cookieCount = 0;
+              score.innerText = "Cookies: " + cookieCount.toFixed(2);
+            }
+            }
+              
+            }
           }
           }
-          else if (this.x >= 56 && this.x <= 176 || this.x >= 236 && this.x <= 355)
-          {
-            if(cookieCount < 0)
-          {
-            cookieCount-=(type / 0.8);
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
-            if(cookieCount < 0)
-          {
-            cookieCount = 0;
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
-          }
-          }
-          else{
-             cookieCount-=(type * 0.8);
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
-            if(cookieCount < 0)
-          {
-            cookieCount = 0;
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
-          }
-          }
-            
-          }
-          else if (this.x >= 356 && this.x <= 400){
-            if(cookieCount <= 0)
-          {
-            cookieCount += (type / -1.5);
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
-            if(cookieCount < 0)
-          {
-            cookieCount = 0;
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
-          }
-          }
-          else if (cookieCount == 0){
-            cookieCount++;
-            score.innerHTML = "Cookies: " + cookieCount.toFixed(2);
-            if(cookieCount < 0)
-          {
-            cookieCount = 0;
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
-          }
-          }
-          else{
-            cookieCount += (type * 1.5);
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
-            if(cookieCount < 0)
-          {
-            cookieCount = 0;
-            score.innerText = "Cookies: " + cookieCount.toFixed(2);
-          }
-          }
-            
+          //draws the balls
+          draw() {
+
+            //the main body of the cookie
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = "#CD853F";
+            ctx.fill();
+            ctx.closePath();
+
+
+            //the chocolate chips on the cookie
+            //chip 1
+            ctx.beginPath();
+            ctx.arc(this.x - 3, this.y - 3, ballRadius - 7, 0, Math.PI * 2);
+            ctx.fillStyle = "#8B4513";
+            ctx.fill();
+            ctx.closePath();
+            //chip 2
+            ctx.beginPath();
+            ctx.arc(this.x + 3, this.y - 1, ballRadius - 7, 0, Math.PI * 2);
+            ctx.fillStyle = "#8B4513";
+            ctx.fill();
+            ctx.closePath();
+            //chip 3
+            ctx.beginPath();
+            ctx.arc(this.x - 1, this.y + 4, ballRadius - 7, 0, Math.PI * 2);
+            ctx.fillStyle = "#8B4513";
+            ctx.fill();
+            ctx.closePath();
           }
         }
-        }
-        //draws the balls
-        draw() {
-          if(this.y <= 550)
+        //draws the inner walls
+        function drawInnerWalls()
         {
-          //the main body of the cookie
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, ballRadius, 0, Math.PI * 2);
-          ctx.fillStyle = "#CD853F";
-          ctx.fill();
-          ctx.closePath();
-
-
-          //the chocolate chips on the cookie
-          //chip 1
-          ctx.beginPath();
-          ctx.arc(this.x - 3, this.y - 3, ballRadius - 7, 0, Math.PI * 2);
-          ctx.fillStyle = "#8B4513";
-          ctx.fill();
-          ctx.closePath();
-          //chip 2
-          ctx.beginPath();
-          ctx.arc(this.x + 3, this.y - 1, ballRadius - 7, 0, Math.PI * 2);
-          ctx.fillStyle = "#8B4513";
-          ctx.fill();
-          ctx.closePath();
-          //chip 3
-          ctx.beginPath();
-          ctx.arc(this.x - 1, this.y + 4, ballRadius - 7, 0, Math.PI * 2);
-          ctx.fillStyle = "#8B4513";
-          ctx.fill();
-          ctx.closePath();
+          const y = 530;
+          for(let i = 50; i <= 350; i+=60)
+        {
+          const x = i;
+          ctx.fillRect(x, y, 10, 70);
+          walls.push({x, y});
         }
         }
-      }
-      //draws the inner walls
-      function drawInnerWalls()
-      {
-        const y = 530;
-        for(let i = 50; i <= 350; i+=60)
-      {
-        const x = i;
-        ctx.fillRect(x, y, 10, 70);
-        walls.push({x, y});
-      }
-      }
 
 
-      //draws the score boxes
-      function drawBoxes()
-      {
-        ctx.fillStyle = "green";
-        ctx.fillRect(0, 550, 50, 50);
-        ctx.fillStyle = "red"
-        ctx.fillRect(60, 550, 50, 50);
-        ctx.fillRect(120, 550, 50, 50);
-        ctx.fillStyle = "green";
-        ctx.fillRect(180, 550, 50, 50);
-        ctx.fillStyle = "red"
-        ctx.fillRect(240, 550, 50, 50);
-        ctx.fillRect(300, 550, 50, 50);
-        ctx.fillStyle = "gold"
-        ctx.fillRect(360, 550, 50, 50);
-      }
+        //draws the score boxes
+        function drawBoxes()
+        {
+          ctx.fillStyle = "green";
+          ctx.fillRect(0, 550, 50, 50);
+          ctx.fillStyle = "red"
+          ctx.fillRect(60, 550, 50, 50);
+          ctx.fillRect(120, 550, 50, 50);
+          ctx.fillStyle = "green";
+          ctx.fillRect(180, 550, 50, 50);
+          ctx.fillStyle = "red"
+          ctx.fillRect(240, 550, 50, 50);
+          ctx.fillRect(300, 550, 50, 50);
+          ctx.fillStyle = "gold"
+          ctx.fillRect(360, 550, 50, 50);
+        }
 
 
+        
+        
+        //draws the pegs
+        function drawPegs() {
+          for (const peg of pegs) {
+            ctx.beginPath();
+            ctx.arc(peg.x, peg.y, pegRadius, 0, Math.PI * 2);
+            ctx.fillStyle = "burlywood";
+            ctx.fill();
+            ctx.closePath();
+          }
+        }
+
+
+        //the animator funciton for the balls
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawBoxes();
+          drawPegs();
+          drawInnerWalls();
+
+          for (const ball of balls) {
+            ball.update();
+            ball.draw();
+          }
+
+          requestAnimationFrame(animate);
+        }
+
+        //spawns a ball on the x axis of where you click but wil always start at the top
+        canvas.addEventListener("click", (e) => {
+        if(cookieCount >= 1)
+        {
+        
+          typedAmount = document.getElementById("ballDropAmount");
+          type = typedAmount.value;
+          if(type <= cookieCount)
+        {
+          cookieCount -= Number(type);
+          score.innerText = "Cookies: " + cookieCount.toFixed(2);
+          const rect = canvas.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          balls.push(new Ball(x, ballRadius));
+        }
+        for (let i = balls.length - 1; i >= 0; i--) {
+                balls[i].update();
+
+                if (balls[i].toDelete) {
+                  balls.splice(i, 1);  // remove the ball
+                 }
+            }
+        }
+        });
+        //calls the animation function
+        animate();
+
+
+
+
+        //cookie clicker code
+        // self-explanitory variables
+
+  var cookiesPerClick = 1;
+  var cookiesPerSecond = 0 * 10 ;
+  var upgrade1Cost = 10;
+  var upgrade2Cost = 100;
+  var upgradeCPC = 0.5 + cookiesPerSecond / 2;
+  var upgradeCPS = 0.05 + cookiesPerClick / 8 * 10;
+
+  //total cookie amount used to scale upgrades when the numbers get very high
+  var totalCookieAmount = 0;
+
+  // main function which updates cookies with CPS and updates the upgradeCPC and upgradeCPS values
+  var ups = 1000/15
+  var timer = setInterval(main, ups)
+
+  function main()
+  {
+      cookieCount = cookieCount + cookiesPerSecond / 10 
+
+      upgradeCPC = 0.5 + cookiesPerSecond / 1.75 + (totalCookieAmount/300000);
+      upgradeCPS = 0.1 + cookiesPerClick / 7 + (totalCookieAmount/300000);
+
+      document.getElementById('upgrade1Button').innerText = "+" + upgradeCPC.toFixed(2) + " Cookies Per Click: " + (Math.round(upgrade1Cost * 100) / 100) + " Cookies"
+      document.getElementById('upgrade2Button').innerText = "+" + upgradeCPS.toFixed(2) + " Cookies Per Second: " + (Math.round(upgrade2Cost * 100) / 100) + " Cookies"
+      document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
+
+      totalCookieAmount = totalCookieAmount + cookiesPerSecond
+      document.getElementById('cookiesTotal').innerText = "Total Cookies: " + Math.round(totalCookieAmount * 100) / 100;
       
-      
-      //draws the pegs
-      function drawPegs() {
-        for (const peg of pegs) {
-          ctx.beginPath();
-          ctx.arc(peg.x, peg.y, pegRadius, 0, Math.PI * 2);
-          ctx.fillStyle = "burlywood";
-          ctx.fill();
-          ctx.closePath();
-        }
-      }
+  }
 
-
-      //the animator funciton for the balls
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawBoxes();
-        drawPegs();
-        drawInnerWalls();
-
-        for (const ball of balls) {
-          ball.update();
-          ball.draw();
-        }
-
-        requestAnimationFrame(animate);
-      }
-
-      //spawns a ball on the x axis of where you click but wil always start at the top
-      canvas.addEventListener("click", (e) => {
-      if(cookieCount >= 1)
-      {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        balls.push(new Ball(x, ballRadius));
-        typedAmount = document.getElementById("ballDropAmount");
-        type = typedAmount.value;
-        cookieCount -= Number(type);
-        score.innerText = "Cookies: " + cookieCount.toFixed(2);
-      }
+  // Event listener for clicking the cookie
+      document.getElementById('cookiePicture').addEventListener('click', function() {
+          cookieCount = cookieCount + cookiesPerClick;
+          //document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
+          totalCookieAmount = totalCookieAmount + cookiesPerClick
       });
-      //calls the animation function
-      animate();
 
+  // Event listener for upgrading the cookies per click
+      document.getElementById('upgrade1Button').addEventListener('click', function() {
+          if (cookieCount >= upgrade1Cost) {
+              cookieCount -= upgrade1Cost;
+              cookiesPerClick = cookiesPerClick + 0.5 + cookiesPerSecond/1.75;
+              
+              upgrade1Cost = upgrade1Cost * 1.05;
+              
+              document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
+              document.getElementById('cpcOutput').innerText = "Cookies Per Click: " + Math.round(cookiesPerClick * 100) / 100;
 
+              //old method for cost
+              //document.getElementById('upgrade1Cost').innerText = "Upgrade Cost: " + Math.floor(upgrade1Cost);
+          }
+      });
 
-
-      //cookie clicker code
-      // self-explanitory variables
-
-var cookiesPerClick = 1;
-var cookiesPerSecond = 0 * 10 ;
-var upgrade1Cost = 10;
-var upgrade2Cost = 100;
-var upgradeCPC = 0.5 + cookiesPerSecond / 2;
-var upgradeCPS = 0.05 + cookiesPerClick / 8 * 10;
-
-
-
-//total cookie amount used to scale upgrades when the numbers get very high
-var totalCookieAmount = 0;
-
-// main function which updates cookies with CPS and updates the upgradeCPC and upgradeCPS values
-var ups = 1000/15
-var timer = setInterval(main, ups)
-
-function main()
-{
-    cookieCount = cookieCount + cookiesPerSecond / 10 
-
-    upgradeCPC = 0.5 + cookiesPerSecond / 1.75 + (totalCookieAmount/300000);
-    upgradeCPS = 0.1 + cookiesPerClick / 7 + (totalCookieAmount/300000);
-
-    document.getElementById('upgrade1Button').innerText = "+" + upgradeCPC.toFixed(2) + " Cookies Per Click: " + (Math.round(upgrade1Cost * 100) / 100) + " Cookies"
-    document.getElementById('upgrade2Button').innerText = "+" + upgradeCPS.toFixed(2) + " Cookies Per Second: " + (Math.round(upgrade2Cost * 100) / 100) + " Cookies"
-    document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
-
-    totalCookieAmount = totalCookieAmount + cookiesPerSecond
-
-    document.getElementById('cookiesTotal').innerText = "Total Cookies: " + Math.round(totalCookieAmount * 100) / 100; 
-    
-}
-
-// Event listener for clicking the cookie
-    document.getElementById('cookiePicture').addEventListener('click', function() {
-        cookieCount = cookieCount + cookiesPerClick;
-        //document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
-        totalCookieAmount = totalCookieAmount + cookiesPerClick
-    });
-
-// Event listener for upgrading the cookies per click
-    document.getElementById('upgrade1Button').addEventListener('click', function() {
-        if (cookieCount >= upgrade1Cost) {
-            cookieCount -= upgrade1Cost;
-            cookiesPerClick = cookiesPerClick + 0.5 + cookiesPerSecond/1.75;
+      document.getElementById('upgrade2Button').addEventListener('click', function() {
+          if (cookieCount >= upgrade2Cost) {
+              cookieCount -= upgrade2Cost;
+              cookiesPerSecond = cookiesPerSecond + 0.05 + cookiesPerClick/7;
+              
+              upgrade2Cost = upgrade2Cost * 3.5;
+              
+              document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
+              document.getElementById('cpsOutput').innerText = "Cookies Per Second: " + Math.round(cookiesPerSecond * 100) / 100;
+              
+              //old method for cost
+              //document.getElementById('upgrade1Cost').innerText = "Upgrade Cost: " + Math.floor(upgrade1Cost);
             
-            upgrade1Cost = upgrade1Cost * 1.05;
-            
-            document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
-            document.getElementById('cpcOutput').innerText = "Cookies Per Click: " + Math.round(cookiesPerClick * 100) / 100;
+          }
+      });
 
-            //old method for cost
-            //document.getElementById('upgrade1Cost').innerText = "Upgrade Cost: " + Math.floor(upgrade1Cost);
-        }
-    });
+      
+      </script>
 
-    document.getElementById('upgrade2Button').addEventListener('click', function() {
-        if (cookieCount >= upgrade2Cost) {
-            cookieCount -= upgrade2Cost;
-            cookiesPerSecond = cookiesPerSecond + 0.05 + cookiesPerClick/7;
-            
-            upgrade2Cost = upgrade2Cost * 3.5;
-            
-            document.getElementById('cookiesOutput').innerText = "Cookies: " + Math.round(cookieCount * 100) / 100;
-            document.getElementById('cpsOutput').innerText = "Cookies Per Second: " + Math.round(cookiesPerSecond * 100) / 100;
-            
-            //old method for cost
-            //document.getElementById('upgrade1Cost').innerText = "Upgrade Cost: " + Math.floor(upgrade1Cost);
-           
-        }
-    });
-
-    
-    </script>
-
-     </div>
-</body>
-</html>
+      </div>
+  </body>
+  </html>
