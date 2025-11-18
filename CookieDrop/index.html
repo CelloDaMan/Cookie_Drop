@@ -121,8 +121,12 @@
           const restitution = Math.floor(Math.random() + 2.1); 
 
 
-          //Updates the amount the player has typed in
-          
+          //updates the ball if it needs to be destroyed
+            if (this.y > 550) {
+              this.toDelete = true;
+            }
+
+            
 
             
             this.vy += gravity;
@@ -244,8 +248,7 @@
           }
           //draws the balls
           draw() {
-            if(this.y <= 550)
-          {
+
             //the main body of the cookie
             ctx.beginPath();
             ctx.arc(this.x, this.y, ballRadius, 0, Math.PI * 2);
@@ -273,7 +276,6 @@
             ctx.fillStyle = "#8B4513";
             ctx.fill();
             ctx.closePath();
-          }
           }
         }
         //draws the inner walls
@@ -351,6 +353,13 @@
           const x = e.clientX - rect.left;
           balls.push(new Ball(x, ballRadius));
         }
+        for (let i = balls.length - 1; i >= 0; i--) {
+                balls[i].update();
+
+                if (balls[i].toDelete) {
+                  balls.splice(i, 1);  // remove the ball
+                 }
+            }
         }
         });
         //calls the animation function
